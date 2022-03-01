@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.mvc.ground.model.mapper.GroundMapper">
+	<resultMap type="Ground" id="groundListResultMap">
+		<id property="g_no" column="G_NO"/>
+		<result property="g_svcnm" column="G_SVCNM"/>
+		<result property="g_placenm" column="G_PLACENM"/>
+		<result property="g_areanm" column="G_AREANM"/>
+		<result property="g_url" column="G_URL"/>
+		<result property="g_imgurl" column="G_IMGURL"/>
+		<result property="g_place_x" column="G_PLACE_X"/>
+		<result property="g_place_y" column="G_PLACE_Y"/>
+		<result property="g_pay" column="G_PAY"/>
+		<result property="g_tel" column="G_TEL"/>
+		<result property="g_start" column="G_START"/>
+		<result property="g_end" column="G_END"/>
+	</resultMap>
+
+	
+	<select id="selectGroundList" resultMap="groundListResultMap" parameterType="map">
+		SELECT G_NO,
+			   G_SVCNM,
+			   G_PLACENM,
+			   G_AREANM,
+			   G_URL,
+			   G_IMGURL,
+			   G_PLACE_X,
+			   G_PLACE_Y,
+			   G_PAY,
+			   G_TEL,
+			   G_START,
+			   G_END
+		FROM GROUND
+		<where>
+			<if test="keyword != null">
+				AND G_PLACENM LIKE '%' || #{keyword} || '%'
+			</if>
+		</where>
+		ORDER BY G_NO DESC
+	</select>
+	
+	<select id="selectGroundCount" resultType="_int">
+		SELECT COUNT(*) FROM GROUND WHERE G_PLACENM LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectGroundByNo" parameterType="_int">
+		SELECT G_NO,
+			   G_SVCNM,
+			   G_PLACENM,
+			   G_AREANM,
+			   G_URL,
+			   G_IMGURL,
+			   G_PLACE_X,
+			   G_PLACE_Y,
+			   G_PAY,
+			   G_TEL,
+			   G_START,
+			   G_END
+		FROM GROUND
+		WHERE G_NO = #{G_NO}
+	</select>
+	
+	<insert id="insertGround" parameterType="map" useGeneratedKeys="true" keyProperty="g_no" keyColumn="G_NO">
+		INSERT INTO GROUND (
+			G_NO,
+			G_SVCNM,
+			G_PLACENM,
+			G_AREANM,
+			G_URL,
+			G_IMGURL,
+			G_PLACE_X,
+			G_PLACE_Y,
+			G_PAY,
+			G_TEL,
+			G_START,
+			G_END
+		) VALUES (
+			#{G_NO},
+			#{G_SVCNM},
+			#{G_PLACENM},
+			#{G_AREANM},
+			#{G_URL},
+			#{G_IMGURL},
+			#{G_PLACE_X},
+			#{G_PLACE_Y},
+			#{G_PAY},
+			#{G_TEL},
+			#{G_START},
+			#{G_END}
+		)
+	</insert>
+	
+
+</mapper>
